@@ -43,7 +43,12 @@ platformCollisions2D.forEach((row, rowIndex) => {
   })
 })
 
-const player = new Player({ position: { x: 100, y: 0 }, collisionBlocks })
+const player = new Player({
+  position: { x: 100, y: 300 },
+  collisionBlocks,
+  imageSrc: './images/warrior/Idle.png',
+  frameRate: 8,
+})
 
 const keys = {
   d: {
@@ -54,7 +59,10 @@ const keys = {
   },
 }
 
-const background = new Sprite({ position: { x: 0, y: 0 }, imageSrc: './images/background.png' })
+const background = new Sprite({
+  position: { x: 0, y: 0 },
+  imageSrc: './images/background.png',
+})
 
 function animate() {
   window.requestAnimationFrame(animate)
@@ -98,7 +106,7 @@ window.addEventListener('keydown', (event) => {
       keys.a.pressed = true
       break
     case 'w':
-      player.velocity.y = -4
+      player.velocity.y = -8
       break
   }
 })
