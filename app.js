@@ -46,6 +46,7 @@ platformCollisions2D.forEach((row, rowIndex) => {
 const player = new Player({
   position: { x: 100, y: 300 },
   collisionBlocks,
+  platformCollisionBlocks,
   imageSrc: './images/warrior/Idle.png',
   frameRate: 8,
   animations: {
