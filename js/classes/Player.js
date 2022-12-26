@@ -133,7 +133,7 @@ class Player extends Sprite {
     for (let i = 0; i < this.platformCollisionBlocks.length; i++) {
       const platformCollisionBlock = this.platformCollisionBlocks[i]
 
-      if (collision({ object1: this.hitbox, object2: platformCollisionBlock })) {
+      if (platformCollision({ object1: this.hitbox, object2: platformCollisionBlock })) {
         if (this.velocity.y > 0) {
           this.velocity.y = 0
           const offset = this.hitbox.position.y - this.position.y + this.hitbox.height

@@ -1,7 +1,8 @@
 const canvas = document.querySelector('canvas')
 const context = canvas.getContext('2d')
 
-const gravity = 0.2
+const gravity = 0.05
+const jumpVelocity = -2.3
 
 canvas.width = 1024
 canvas.height = 576
@@ -37,7 +38,7 @@ platformCollisions2D.forEach((row, rowIndex) => {
   row.forEach((symbol, columnIndex) => {
     if (symbol === 202) {
       platformCollisionBlocks.push(
-        new CollisionBlock({ position: { x: columnIndex * 16, y: rowIndex * 16 } })
+        new CollisionBlock({ position: { x: columnIndex * 16, y: rowIndex * 16 }, height: 4 })
       )
     }
   })
@@ -174,7 +175,7 @@ window.addEventListener('keydown', (event) => {
       keys.a.pressed = true
       break
     case 'w':
-      player.velocity.y = -5
+      player.velocity.y = jumpVelocity
       break
   }
 })
