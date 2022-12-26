@@ -1,7 +1,7 @@
 const canvas = document.querySelector('canvas')
 const context = canvas.getContext('2d')
 
-const gravity = 0.5
+const gravity = 0.2
 
 canvas.width = 1024
 canvas.height = 576
@@ -48,6 +48,48 @@ const player = new Player({
   collisionBlocks,
   imageSrc: './images/warrior/Idle.png',
   frameRate: 8,
+  animations: {
+    Idle: {
+      imageSrc: './images/warrior/Idle.png',
+      frameRate: 8,
+      frameBuffer: 10,
+    },
+    IdleLeft: {
+      imageSrc: './images/warrior/IdleLeft.png',
+      frameRate: 8,
+      frameBuffer: 10,
+    },
+    Run: {
+      imageSrc: './images/warrior/Run.png',
+      frameRate: 8,
+      frameBuffer: 12,
+    },
+    RunLeft: {
+      imageSrc: './images/warrior/RunLeft.png',
+      frameRate: 8,
+      frameBuffer: 12,
+    },
+    Jump: {
+      imageSrc: './images/warrior/Jump.png',
+      frameRate: 2,
+      frameBuffer: 5,
+    },
+    JumpLeft: {
+      imageSrc: './images/warrior/JumpLeft.png',
+      frameRate: 2,
+      frameBuffer: 5,
+    },
+    Fall: {
+      imageSrc: './images/warrior/Fall.png',
+      frameRate: 2,
+      frameBuffer: 5,
+    },
+    FallLeft: {
+      imageSrc: './images/warrior/FallLeft.png',
+      frameRate: 2,
+      frameBuffer: 5,
+    },
+  },
 })
 
 const keys = {
@@ -86,10 +128,35 @@ function animate() {
   player.update()
 
   player.velocity.x = 0
+
   if (keys.d.pressed) {
-    player.velocity.x = 5
+    player.switchSprite('Run')
+    player.velocity.x = 1
+    player.lastDirection = 'right'
   } else if (keys.a.pressed) {
-    player.velocity.x = -5
+    player.switchSprite('RunLeft')
+    player.velocity.x = -1
+    player.lastDirection = 'left'
+  } else if (player.velocity.y === 0) {
+    if (player.lastDirection === 'right') {
+      player.switchSprite('Idle')
+    } else {
+      player.switchSprite('IdleLeft')
+    }
+  }
+
+  if (player.velocity.y < 0) {
+    if (player.lastDirection === 'right') {
+      player.switchSprite('Jump')
+    } else {
+      player.switchSprite('JumpLeft')
+    }
+  } else if (player.velocity.y > 0) {
+    if (player.lastDirection === 'right') {
+      player.switchSprite('Fall')
+    } else {
+      player.switchSprite('FallLeft')
+    }
   }
 
   context.restore()
@@ -106,7 +173,7 @@ window.addEventListener('keydown', (event) => {
       keys.a.pressed = true
       break
     case 'w':
-      player.velocity.y = -8
+      player.velocity.y = -5
       break
   }
 })

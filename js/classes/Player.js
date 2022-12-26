@@ -1,5 +1,5 @@
 class Player extends Sprite {
-  constructor({ position, collisionBlocks, imageSrc, frameRate, scale = 0.5 }) {
+  constructor({ position, collisionBlocks, imageSrc, frameRate, scale = 0.5, animations }) {
     super({ imageSrc, frameRate, scale })
 
     this.position = position
@@ -13,6 +13,24 @@ class Player extends Sprite {
       width: 10,
       height: 10,
     }
+    this.animations = animations
+    this.lastDirection = 'right'
+
+    for (let key in this.animations) {
+      const image = new Image()
+      image.src = this.animations[key].imageSrc
+      this.animations[key].image = image
+    }
+  }
+
+  switchSprite(key) {
+    if (this.image === this.animations[key].image || !this.loaded) {
+      return
+    }
+
+    this.image = this.animations[key].image
+    this.frameRate = this.animations[key].frameRate
+    this.frameBuffer = this.animations[key].frameBuffer
   }
 
   update() {
@@ -20,7 +38,7 @@ class Player extends Sprite {
 
     this.updateHitbox()
 
-    // draws out the image
+    /*    // draws out the image
     context.fillStyle = 'rgba(0, 255, 0, 0.2)'
     context.fillRect(this.position.x, this.position.y, this.width, this.height)
 
@@ -32,7 +50,7 @@ class Player extends Sprite {
       this.hitbox.width,
       this.hitbox.height
     )
-
+*/
     this.draw()
 
     this.position.x += this.velocity.x
@@ -77,9 +95,8 @@ class Player extends Sprite {
   }
 
   applyGravity() {
-    this.position.y += this.velocity.y
-
     this.velocity.y += gravity
+    this.position.y += this.velocity.y
   }
 
   checkForVerticalCollisions() {
