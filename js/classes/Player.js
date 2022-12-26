@@ -115,22 +115,45 @@ class Player extends Sprite {
     }
   }
 
-  shouldPanCameraToTheLeft({ canvas, camera }) {
-    const cameraboxRightSide = this.camerabox.position.x + this.camerabox.width
+  shouldPanCameraLeft({ canvas, camera }) {
+    if (this.camerabox.position.x + this.camerabox.width >= 576) return
+
     const scaledDownCanvasWidth = canvas.width / 4
 
-    if (cameraboxRightSide >= 576) return
-
-    if (cameraboxRightSide >= scaledDownCanvasWidth + Math.abs(camera.position.x)) {
+    if (
+      this.camerabox.position.x + this.camerabox.width >=
+      scaledDownCanvasWidth + Math.abs(camera.position.x)
+    ) {
       camera.position.x -= this.velocity.x
     }
   }
 
-  shouldPanCameraToTheRight({ canvas, camera }) {
+  shouldPanCameraRight({ canvas, camera }) {
     if (this.camerabox.position.x <= 0) return
 
     if (this.camerabox.position.x <= Math.abs(camera.position.x)) {
       camera.position.x -= this.velocity.x
+    }
+  }
+
+  shouldPanCameraDown({ canvas, camera }) {
+    if (this.camerabox.position.y + this.velocity.y <= 0) return
+
+    if (this.camerabox.position.y <= Math.abs(camera.position.y)) {
+      camera.position.y -= this.velocity.y
+    }
+  }
+
+  shouldPanCameraUp({ canvas, camera }) {
+    if (this.camerabox.position.y + this.camerabox.height + this.velocity.y >= 432) return
+
+    const scaledDownCanvasHeight = canvas.height / 4
+
+    if (
+      this.camerabox.position.y + this.camerabox.height >=
+      scaledDownCanvasHeight + Math.abs(camera.position.y)
+    ) {
+      camera.position.y -= this.velocity.y
     }
   }
 
