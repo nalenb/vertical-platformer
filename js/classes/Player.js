@@ -28,6 +28,7 @@ class Player extends Sprite {
       return
     }
 
+    this.currentFrame = 0
     this.image = this.animations[key].image
     this.frameRate = this.animations[key].frameRate
     this.frameBuffer = this.animations[key].frameBuffer
